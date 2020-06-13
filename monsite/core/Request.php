@@ -1,36 +1,56 @@
 <?php
-//je crée une class que je nome Request
+
 class Request
 {
-    public $url; //URL appelé par l'utilisateur
+    /* (FR) Définition de variable
+    (EN) Definition of variable */
+
+    public $url; /* (FR) URL appeler par l'utilisateur (EN) URL to call by user */
     public $page = 1;
-    public $prefix = false; /*je définit mon prefixe sur false par default */
+    public $prefix = false; /*(FR) Par défaut on considère qu'il n'y a pas de prefix dans l'URL
+     (EN) By default we consider that there is no prefix in the URL */
     public $data = false;
 
     function __construct()
     {
-        /*je recupère url trappée par l'utilisateur dans la super variable
-         "_SERVER" dans la section "PATH_INFO" * si elle et pas disponible je remplace par un '/'/*/
+        /*(FR) Je recupere URL taper par l'utilisateur
+        (EN) I recover URL type by user */
         $this->url = isset($_SERVER['PATH_INFO'])? $_SERVER['PATH_INFO']:'/';
         
-        /* PAGINATION j'ai mis sa ici mais ces passure que sa il reste permet de 
-        recuperait les entrée que donne les lines de la pagination quand on clic dessus  */
+/* ------------------------------------PAGINATION-------------------------- */
+        /* (FR) J'ai mis ça ici mais c'est pas sure que ça il reste
+        (EN) I put this here but it's not sure that it remains */
+
+        /* (FR) Si la variable $_GET contient la clé page
+        (EN) If the variable $ _GET contains the page key */
         if (isset($_GET['page'])) {
-            //par securité je verifie bien que ces une valeur numérique
+
+           /* (FR) Par securité je verifie bien que ces une valeur numérique 
+           (EN) by security I check that these numerical values */
             if (is_numeric($_GET['page'])) {
-                //je verifie que la valeur reçu est superieure a zero
+
+                /* (FR) je vérifie que la valeur reçu est supérieure à zéro
+                (EN) I check that the value received is greater than zero */
                 if($_GET['page']> 0 ){
-                    /*je fais une requete avec ces argument si tous est ok
-                    je fais un petit Round par securité pour etre sur que je n'envoi pas de float   */
+
                     $this->page = round($_GET['page']);
                 }
 
             }
         }
+
+        /*(FR) Si la variable $_POST existe ou n'est pas vide
+        (EN) If the variable $ _POST exists or is not empty */
         if(!empty($_POST)){
+            /* (FR) Je transforme data en class
+            (EN) I transform data into class */
             $this->data = new stdClass();
-            foreach($_POST as $k=>$v){
-                $this->data->$k=$v;
+
+            /* (FR) Puis je parcoure ma variable $_POST pour injecter dans mon nouvel objet data
+            (EN) Then I browse my $ _POST variable to inject into my new data object */
+            foreach($_POST as $_key=>$_value){
+
+                $this->data->$_key=$_value;
             }
         }
     }

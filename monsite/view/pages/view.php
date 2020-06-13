@@ -1,4 +1,4 @@
-<?php $tile_for_layout = $page->name;?>
+<?php $tile_for_theme = $page->name;?>
 
 <h1><?php echo $page->name;?></h1>
 

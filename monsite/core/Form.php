@@ -1,71 +1,95 @@
 <?php
-/* Je vais crée une classe qui va me permettre de generait mais Formulaire 
-function input ($non Renvoyer en Variable ,$le nom afficher sur la page en label ,$une table contenant toute les ouption voulus pour le chanps) */
+/*(FR) Class qui permet de générer des formulaires
+(EN) Class that generates forms*/
 class Form
 {
-    /* je stock le controller de la page qui apelle Form */
-    public $controller;
-    /* je stock les erreur Renvoyer par le Controller pour dire
-     a l'utilisateur quelle Champs est mal remplie */
-    public $errors;
+    /*(FR) Déclaration de variable */
+    public $controller;// (FR)Contiendra le contrôleur qui appelle la classe forme (EN) Will contain the controller that calls the form class
 
-    /* ho moment d'initialiser la class Form je demande le Controller */
+    public $errors; //(FR)Contiendra les erreurs envoyer par le contrôleur si le champs est mal rempli 
+                    //(EN) Will contain the errors sent by the controller if the field is incorrectly filled
+
+    /**
+     * (FR) Le constructeur prend le contrôleur en paramètre
+      *(EN)  The construct takes the controller as a parameter
+      *@param Controller    */
     public function __construct($controller)
     {
         $this->controller = $controller;
     }
-    /* Ma fonction qui va recuperait mes demand de Formulaire */
+    /**
+     * (FR)
+     * @param string Nom de l'entrée
+     * @param string Texte affiché dans le label
+     * @param array Les options volume pour le champs */
     public function input($name, $label, $options = array())
     {
-        /* je crér des variable pour  gerer les erreur 
-         et je leur donne une valeur par default */
+        /* (FR)On donne une valeur par défaut au variable 
+       (EN) We give a default value to the variable */
         $error = false;
         $classError = '';
-        /* je verifie si des erreur qui porte le nom de chanps est retourner  */
+
+        /* (FR) On vérifie c'est des erreurs ont été retourné par le contrôleur
+        (EN)  We check it is errors were returned by the controller */
         if (isset($this->errors[$name])) {
-            /* si oui de la passe a la variable $error */
+
+            /*(FR) On récupère les erreurs
+            (EN) We recover the errors */
             $error = $this->errors[$name];
-            /* et je defini une class a ma variable */
+
+            /*(FR) On définit la classe bg-danger Pour notre Input HTML 
+            (EN) We define the class bg-danger For our HTML Input */
             $classError = 'bg-danger';
         }
-        /*si ma variable $name dans mon Controller est vie ou n'existe pas  */
+        /* (FR) On vérifie dans notre variable data que la variable name n'est pas vide
+        (EN) We check in our data variable that the name variable is not empty */
         if (!isset($this->controller->request->data->$name)) {
-            /* je defini une valeur vide a mon Champs */
-            $value = '';
+
+            $value = '';//(FR) Si elle est vide la variable value sera vide aussi (EN) If it is empty the value variable will be empty too
+
         } else {
-            /* si non je lui donne la valeur contenue dans la Variable du Controlleur */
+
             $value = $this->controller->request->data->$name;
         }
 
-        /* si le label est defini comme non visible */
+        /* (FR)Si le label est égal a hidden 
+        (EN) If the label is equal to hidden */
         if ($label == 'hidden') {
-            /* je retourne un champs non visible a la page */
+
+            /* (FR) Dans ce cas je retourne un champ non visible à ma vue
+            (EN) In this case I return a field not visible to my view */
             return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
         }
 
-        /* si le label est visible je la defini en lui passant tout les parametres néccessaire 
-        et je la Stock dans une variable que je nome $html */
+        /*(FR) On crée un label avec les infos récupérer
+        (EN) We create a label with the information to recover */
         $html = '<div class="clearfix' . $classError . '">
                     <label for="input' . $name . '">' . $label . '</label>
                 <div class="input">';
 
-        /* je crée une variable qui va contenir le String de toute mes option de champs */
+        /*(FR) Cette variable va contenir toutes les options de mon champ
+        (EN) This variable will contain all the options of my field */
         $attr = '';
-        /* je parcours mon tableau d'options */
-        foreach ($options as $k => $v) {
-            /* si ma key est diferente de 'type */
-            if ($k != 'type') {
-                /* je le rajoute a ma variable $attr */
-                $attr .= "$k=\"$v\"";
+
+        /*(FR) Je parcours le tableau qui contient les options
+        (EN) I browse the table which contains the options */
+        foreach ($options as $_key => $_value) {
+            if ($_key != 'type') {
+
+                $attr .= "$_key=\"$_value\"";
             }
         }
-        /* si le type est vide */
+        /*(FR) Si le type n'est pas défini
+        (EN) If the type is not defined */
         if (!isset($options['type'])) {
-            /* se sera par default un champs de type texte */
+
+            /* (FR) Ce sera par défaut un champ de type text
+            (EN) By default, it will be a text field */
             $html .= '<input type="text" id="input' . $name . '" name="' . $name . '" value="' . $value . '"' . $attr . '>';
-            /* ci ces de type textarea */
+
+     
         } elseif ($options['type'] == 'textarea') {
-            /* Je crée un champ de type textarea */
+
             $html .= '<textarea id="input' . $name . '"name="' . $name . '" ' . $attr . '>' . $value . '</textarea>';
         
         } elseif ($options['type'] == 'checkbox') {
@@ -76,15 +100,22 @@ class Form
 
             $html .= '<input type="password" name="' . $name . '" value ="0"><input type="checkbox" name="' . $name . '" value="1" ' . (empty($value) ? '' : 'checked') . '>';
         }
-        /* si la variable erreur n'est pas vide */
+        /* (FR) Si la variable n'est pas vide 
+        (EN) If the variable is not empty */
         if ($error) {
-            /* je créer une span pour afficher les erreur */
+        
+            /* (FR) On ajoute les erreurs
+            (EN) We add the errors */
             $html .= '<span class="help-inline">' . $error . '</span>';
         }
-        /* je ferme le contenue de ma variable $html par une balise div */
+        
+        /* (FR) Je ferme les div dans mon texte HTML
+        (EN) I close the divs in my HTML text */
         $html .= ' </div>
         </div>';
-        /* et je la retourne a la vue  */
+        
+        /* (FR) On retourne le contenu à la vue
+        (FR) We return the content to view  */
         return $html;
     }
 }

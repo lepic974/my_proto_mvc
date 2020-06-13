@@ -10,10 +10,11 @@ class PostsController extends Controller
 
         $this->loadModel('Post');
 
-        //je defini mes conditions de recherche dans la base de données
         $condition = array('online' => 1, 'type' => 'post');
 
-        /* va renvoyer tout les entrée avec un champ post */
+        /*(FR) Renvoie tous les entrées de type post
+        (EN) Returns all post type entries
+ */
         $d['posts'] = $this->Post->find(array(
             'conditions' => $condition,
             'limit' => ($perPage * ($this->request->page - 1)) . ',' . $perPage
@@ -21,12 +22,15 @@ class PostsController extends Controller
         /*
                             PAGINATION 
                         */
-        //je recupère le nombre d'entrée qui on le type 'post' dans ma base de données
+        /* (FR) Renvoie le nombre d'entrées qui porte le type post dans la base données
+        (EN) Returns the number of entries with type post in the database */
         $d['total'] = $this->Post->findCount($condition);
 
-        //je fait le calcul du nombre de post que j'aurais par page et je l'arrondi a la valeur au dessus
+        /* (FR)Calcul pour définir le nombre de postes par page
+        (EN) Calculation to define the number of posts per page */
         $d['page'] = ceil($d['total'] / $perPage);
-        //et j'envoi le contenu de ma variable '$d' a ma vue 
+        
+
         $this->set($d);
     }
 

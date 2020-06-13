@@ -33,13 +33,13 @@ class Router
             /*si elle est vide je lui donne l'url original presente dans la variable  $routes du Router*/
             $url = Router::$routes[0]['url'];
         } else {/*si elle n'est pas vide*/
-            $match = false;
+            $validate = false;
             /*je parcours la variable $routes */
             foreach (Router::$routes as $v) {
                 /*je verifie si mon url correspont a une de mes regle contenue dans mon catcher de ma variable $routes*/
 
 
-                if (!$match && preg_match($v['redirreg'], $url, $match)) {
+                if (!$validate && preg_match($v['redirreg'], $url, $match)) {
 
                     $url = $v['origin'];
 
@@ -48,7 +48,7 @@ class Router
                         $url = str_replace(':' . $k . ':', $v, $url);
                     }
 
-                    $match = true;
+                    $validate = true;
                 }
             }
         }

@@ -63,11 +63,11 @@ class Controller
 
         /*(FR)On lit les données qui on était stocker par ob_start et on les supprimes
         (EN) We read the data that we were storing by ob_start and we delete them */ 
-        $content_for_layout = ob_get_clean();
+        $content_for_theme = ob_get_clean();
 
-        /*(FR) On ajoute le layout que on peut considerer comme le theme du site
-        (EN) we add the layout which we can consider as the theme of the site */
-        require ROOT . DS . 'view' . DS . 'layout' . DS . $this->layout . '.php';
+        /*(FR) On ajoute le theme que on peut considerer comme le theme du site
+        (EN) we add the theme which we can consider as the theme of the site */
+        require ROOT . DS . 'view' . DS . 'theme' . DS . $this->theme . '.php';
 
         /*(FR) On definit rendered sur true pour signifier que la vue est rendu 
         (EN) We set rendered to true to signify that the view is rendered */

@@ -46,7 +46,7 @@ class UsersController extends Controller
         if ($this->Session->isLogged()) {
             /*(FR) Je vérifie si il a le rôle d'admin
             (EN)I check if he has the role of admin */
-            if ($this->Session->user('role') == 'Admin') {
+            if ($this->Session->user('role') == 'admin') {
 
                 /*(FR)Si il a le rôle d'admin je le redirige vers la page d'administration
                 (EN) If he has the role of admin I redirect him to the administration page */
