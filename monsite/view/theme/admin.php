@@ -35,7 +35,7 @@ $user = $_SESSION['User'];
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo Router::url('admin/posts/index'); ?>">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -47,7 +47,7 @@ $user = $_SESSION['User'];
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="<?php echo Router::url('admin/posts/index'); ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Tableau de bord</span></a>
             </li>
@@ -60,7 +60,7 @@ $user = $_SESSION['User'];
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo Router::url('/'); ?>"  aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="<?php echo Router::url('/'); ?>" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Retour au site</span>
                 </a>
@@ -77,7 +77,7 @@ $user = $_SESSION['User'];
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="<?php echo Router::url('admin/pages/page_index'); ?>" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Pages</span>
                 </a>
@@ -85,9 +85,9 @@ $user = $_SESSION['User'];
             </li>
             <!-- Nav Item - Posts Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="<?php echo Router::url('admin/posts/post_index'); ?>"  aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Posts</span>
+                    <span>Articles</span>
                 </a>
 
             </li>
@@ -155,7 +155,11 @@ $user = $_SESSION['User'];
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
+                    <!-- affiche les info de la flach -->
+                    <div aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <?php echo $this->Session->flash(); ?>
+                        <?php echo $content_for_theme; ?>
+                    </div>
 
 
                     <!-- Content Row -->

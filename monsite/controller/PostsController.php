@@ -73,7 +73,13 @@ class PostsController extends Controller
     /**
      * ADMIN
      */
+
     function admin_index()
+    {
+  
+    }
+
+    function admin_post_index()
     {
   
         $perPage = 10;
@@ -123,7 +129,7 @@ class PostsController extends Controller
      * Permet d'éditer un article
      * @param string 'id'
      */
-    function admin_edit($id = null)
+    function admin_post_edit($id = null)
     {
         $this->loadModel('Post');
         $d['id'] = '';

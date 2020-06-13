@@ -33,7 +33,7 @@
         ?>
         <?php foreach ($pagesMenu as $p) : ?>
           <li class="nav-item active">
-            <a class="nav-link" href="<?php echo BASE_URL.'/pages/view/' . $p->id; ?>" title="<?php echo $p->name; ?>"><?php echo $p->name; ?></a>
+            <a class="nav-link" href="<?php echo BASE_URL.'/pages/view/id:' . $p->id; ?>" title="<?php echo $p->name; ?>"><?php echo $p->name; ?></a>
           </li>
         <?php endforeach; ?>
         <!-- je cree un nouveau elemnt pour mon menu qui s'appelle actualité -->

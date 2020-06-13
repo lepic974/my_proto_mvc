@@ -100,7 +100,11 @@ class Router
                 /* je recupère les elements qui se trouve avant ou après ':' */
                 $t = explode(':', $request->params[$k]);
                 /* et je les stock dans ma table $param */
-                $params[$t[0]] = $t[1];
+                if(isset($t)){
+                
+                    $params[$t[0]] = $t[1];
+                }
+            
             }
             /* puis je refinit ma table params de request avec ces info trié et structurai */
             $request->params = $params;

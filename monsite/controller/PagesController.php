@@ -45,4 +45,85 @@ class pagesController extends Controller
         ));
 
     }
+
+ 
+
+    function admin_page_index()
+    {
+  
+        $perPage = 10;
+
+        $this->loadModel('Post');
+
+       /* (FR) Je définis mes conditions de recherche dans la base de données
+        (EN)I define my search conditions in the database */
+        $condition = array('type' => 'page');
+
+        $d['pages'] = $this->Post->find(array(
+            'fields' => 'id,name,online',
+            'conditions' => $condition,
+            'limit' => ($perPage * ($this->request->page - 1)) . ',' . $perPage
+        ));
+        /*
+                            PAGINATION 
+                        */
+       /*(FR)  Je récupère dans la base de données les nombres d'entrées qui ont le type post
+        (EN) I retrieve from the database the number of entries that have the post type */
+        $d['total'] = $this->Post->findCount($condition);
+
+        /*(FR) Je fais le calcul du nombre de poste que je répare page
+        (EN) I calculate the number of positions I repair page  */
+        $d['page'] = ceil($d['total'] / $perPage);
+
+        $this->set($d);
+    }
+
+    function admin_page_edit($id = null)
+    {
+        $this->loadModel('Post');
+        $d['id'] = '';
+        /*(FR) On vérifie que notre variable objet data n'est pas vide
+        (EN) We check that our data object variable is not empty  */
+        if ($this->request->data) {
+            
+            /*(FR) On fait vérifier notre formulaire avant l'envoi dans la base de données
+            (EN) We have our form checked before sending it to the database */
+            if ($this->Post->validates($this->request->data, $this->Post->validate)) {
+                /* PARTIE SAVE */
+                $this->request->data->type = 'page' ;
+                $this->request->data->created = date('Y-m-d h:i:s');
+                $this->Post->save($this->request->data);
+                $this->Session->setFlash('Le contenu a bien été modifié');
+                $this->redirect('admin/pages/page_index');
+            } else {
+                /* PARTIE ERREUR VALIDATION DONNEE */
+                $this->Session->setFlash('Merci de coriger vos information', 'bg-danger');
+            }
+        } else {
+
+            if ($id) {
+              
+                $this->request->data  = $this->Post->findFirst(array(
+                    'conditions' => array('id' => $id)
+                ));
+            }
+
+            $d['id'] = $id;
+        }
+
+        $this->set($d);
+    }
+    /**
+     * Permet de supprimer une page
+     * @param id De la page à supprimer
+     * 
+     */
+    function admin_delete($id)
+    {
+
+        $this->loadModel('Post');
+        $this->Post->delete($id);
+        $this->Session->setFlash('Le contenu a bien été supprimé');
+        $this->redirect('admin');
+    }
 }
