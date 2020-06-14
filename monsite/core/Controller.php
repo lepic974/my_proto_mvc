@@ -118,8 +118,8 @@ class Controller
             $this->$name = new $name();
         }
         
-        /*(FR) Si ma variable n'est pas vite c'est qu'elle contient un formulaire donc je l'e passe à mon modèle
-        (EN) If my variable is not fast it is because it contains a form so I pass it to my model */
+        /*(FR) Si ma variable n'est pas vide c'est qu'elle contient un formulaire donc je l'e passe à mon modèle
+        (EN) If my variable is not empty it is because it contains a form so I pass it to my model */
         if(isset($this->Form)){
 
             $this->$name->Form = $this->Form;

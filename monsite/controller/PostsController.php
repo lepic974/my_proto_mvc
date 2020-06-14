@@ -1,10 +1,10 @@
 <?php
 class PostsController extends Controller
 {
-    
+
     function index()
     {
-       /*(FR) Je defini le nombre de post par page
+        /*(FR) Je defini le nombre de post par page
        (EN) I define the number of posts per page*/
         $perPage = 5;
 
@@ -29,12 +29,12 @@ class PostsController extends Controller
         /* (FR)Calcul pour définir le nombre de postes par page
         (EN) Calculation to define the number of posts per page */
         $d['page'] = ceil($d['total'] / $perPage);
-        
+
 
         $this->set($d);
     }
 
-   /* (FR) Appelle la vue view qui est dans poste et prend en paramètre un ID et un Slug
+    /* (FR) Appelle la vue view qui est dans poste et prend en paramètre un ID et un Slug
     (EN) Calls up the view view which is in extension and takes an ID and a Slug as a parameter*/
     function view($id, $slug)
     {
@@ -45,7 +45,7 @@ class PostsController extends Controller
         $d['post'] = $this->Post->findFirst(array(
 
             /*(FR) Je définis les champs que je veux récupérer
-            (EN) I define the fields that I want retrieve */ 
+            (EN) I define the fields that I want retrieve */
             'fields'    => 'id,slug,content,name',
 
             /*(FR) Je définis mes conditions de recherche 
@@ -76,17 +76,16 @@ class PostsController extends Controller
 
     function admin_index()
     {
-  
     }
 
     function admin_post_index()
     {
-  
+
         $perPage = 10;
 
         $this->loadModel('Post');
 
-       /* (FR) Je définis mes conditions de recherche dans la base de données
+        /* (FR) Je définis mes conditions de recherche dans la base de données
         (EN)I define my search conditions in the database */
         $condition = array('type' => 'post');
 
@@ -98,7 +97,7 @@ class PostsController extends Controller
         /*
                             PAGINATION 
                         */
-       /*(FR)  Je récupère dans la base de données les nombres d'entrées qui ont le type post
+        /*(FR)  Je récupère dans la base de données les nombres d'entrées qui ont le type post
         (EN) I retrieve from the database the number of entries that have the post type */
         $d['total'] = $this->Post->findCount($condition);
 
@@ -108,8 +107,8 @@ class PostsController extends Controller
 
         $this->set($d);
     }
-    /*(FR) SUPPRESSION ET AJOUT D'INFO DANS LA BASE DE DONNÉE POUR LES POST ET PAGES
-    (EN) DELETION AND ADDITION OF INFO IN THE DATABASE FOR POST AND PAGES
+    /*(FR) SUPPRESSION ET AJOUT D'INFO DANS LA BASE DE DONNÉE POUR LES POST 
+    (EN) DELETION AND ADDITION OF INFO IN THE DATABASE FOR POST 
   */
     /**
      * Permet de supprimer un article
@@ -122,7 +121,7 @@ class PostsController extends Controller
         $this->loadModel('Post');
         $this->Post->delete($id);
         $this->Session->setFlash('Le contenu a bien été supprimé');
-        $this->redirect('admin');
+        $this->redirect('admin/posts/post_index');
     }
 
     /**
@@ -131,21 +130,22 @@ class PostsController extends Controller
      */
     function admin_post_edit($id = null)
     {
+
         $this->loadModel('Post');
         $d['id'] = '';
         /*(FR) On vérifie que notre variable objet data n'est pas vide
         (EN) We check that our data object variable is not empty  */
         if ($this->request->data) {
-            
+
             /*(FR) On fait vérifier notre formulaire avant l'envoi dans la base de données
             (EN) We have our form checked before sending it to the database */
             if ($this->Post->validates($this->request->data, $this->Post->validate)) {
                 /* PARTIE SAVE */
-                $this->request->data->type = 'post' ;
+                $this->request->data->type = 'post';
                 $this->request->data->created = date('Y-m-d h:i:s');
                 $this->Post->save($this->request->data);
                 $this->Session->setFlash('Le contenu a bien été modifié');
-                $this->redirect('admin/posts/index');
+                $this->redirect('admin/posts/post_index');
             } else {
                 /* PARTIE ERREUR VALIDATION DONNEE */
                 $this->Session->setFlash('Merci de coriger vos information', 'bg-danger');
@@ -153,7 +153,7 @@ class PostsController extends Controller
         } else {
 
             if ($id) {
-              
+
                 $this->request->data  = $this->Post->findFirst(array(
                     'conditions' => array('id' => $id)
                 ));
@@ -165,5 +165,5 @@ class PostsController extends Controller
         $this->set($d);
     }
 
-    
+
 }

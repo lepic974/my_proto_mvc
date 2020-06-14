@@ -33,6 +33,7 @@ require CORE . DS . 'includes.php';
 
 //jinitialise ma calss dispatcher
 new Dispatcher();
+
 ?>
 <!-- je calcule le temp ecouler  -->
 <?php $time = round(microtime(true)-$debut,5); 

@@ -1,5 +1,17 @@
 <?php
 
+/* (FR) INFO CONNECTION BASE DONEE CONNECTION  (EN)INFO CONNECTION DATABASE */
+$conf = array(
+
+  'host' => 'localhost', //(FR) Adresse de la base de donnée (EN)database address
+  'database' => 'tuto', //(FR) Nom de la table (EN) Table Name
+  'login' => 'root', //(FR)Nom utilisateur (EN)User name
+  'password' => '' //Mot de passe de l'utilisateur (EN) user password
+);
+$table = 'medias';/* (FR)table visé (EN)Target table */
+$fields = array();/*(FR)champ viser dans la table (EN)target field in the table */
+
+
 /***************************************************
  * (FR) URL de base de votre serveur
  * (EN) Base URL of your serve
@@ -7,15 +19,10 @@
 $accepted_origins = array("http://localhost");
 
 /*********************************************
- * 
  * (FR) Chemin vers le dossiers où les images sont stockées *
  * (EN) Path to the folder where the images are stored
- * 
  *********************************************/
 $imageFolder = "monsite\webroot\img/";
-
-/*(FR) Je remets le pointeur de ma table début
-    (EN) I put the pointer of my table back */
 
 reset($_FILES);
 /* (FR) Je récupère le premier élément et je stocke dans la variable $temps */
@@ -41,6 +48,7 @@ if (is_uploaded_file($temp['tmp_name'])) {
     } else {
 
       header("HTTP/1.1 403 Origin Denied");
+
       return;
     }
   }
@@ -64,15 +72,62 @@ if (is_uploaded_file($temp['tmp_name'])) {
 
   /* (EN)I create a new table in which I add a key and which I name
      location which will have the way to my image. */
-  $_new_path = array('location' => '/' . $filetowrite);
+  $file = array('location' => '/' . $filetowrite);
+
+/* -----------------------------------(FR)PREPARATION DES DONNEES ET INITIALISATION DE LA CONNECTION LA BASE DE DONEE----------------------------- */
+/* -----------------------------------(EN) DATA PREPARATION AND INITIALIZATION OF THE DONEE CONNECTION----------------------------- */
+
+/* (FR) Sérialisation des info de l'image pour les sauvegarder la base données
+ (EN) Serialization of image info to save the database */
+  $data = array(
+    'name' => $temp['name'],
+    'file' => $filetowrite,
+    'type' => 'img'
+  );
+
+  try {/* (FR) Si je ne suis pas connecté j'essaie de démarrer une connexion
+    (EN) If I am not connected I try to start a connection */
+
+/* (FR)Démarrage de la connexion
+ (EN)Connection start */
+    $pdo = new PDO('mysql:host =' . $conf['host'] . ';dbname=' . $conf['database'] .
+      ';', $conf['login'], $conf['password'], array((PDO::MYSQL_ATTR_INIT_COMMAND) => 'SET NAMES utf8'));
+
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+
+  } catch (PDOException $e) {
+
+    die('impossible de se Connecter a la base de donnée');
+  
+  }
+
+/* (FR)Parcours du tableau data
+(EN) Browsing the data table */
+  foreach ($data as $_key => $_value) {
+
+    $fields[] = "$_key=:$_key";/* (FR)Les clés de Vienne des champs (EN)The keys to Vienna from the fields */
+
+    $d[":$_key"] = $_value;/* (FR) Et les value devient des valeurs à entrer dans le tableau
+     (EN) And the values ​​become values ​​to enter in the array */
+  }
+
+/* (FR)Préparation de la requête SQL
+ (EN)SQL query preparation */
+  $sql = 'INSERT INTO ' . $table . ' SET ' . implode(',', $fields);
+
+  $pre = $pdo->prepare($sql);
+  $pre->execute($d);
+
 
   /* (FR)Je convertis le contenu de mon tableau en json 
-  (EN)I convert the content of my table to json */
-  $_new_path = json_encode($_new_path);
+  ( EN)I convert the content of my table to json */
+  $_new_path = json_encode($file);
 
   /*(FR) et je fais un echo qui sera récupéré dans la vue admin_edit 
-  (EN)  and I make an echo which will be retrieved in the admin_edit view*/
+      (EN)  and I make an echo which will be retrieved in the admin_edit view*/
   echo $_new_path;
+  /*   } */
+
 } else {/* (FR) Si le fichier n'a pas été envoyé par HTTP POST  */
 
   /*  (FR) Je retourne une erreur 

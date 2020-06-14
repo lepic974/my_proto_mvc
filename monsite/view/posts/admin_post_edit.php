@@ -1,8 +1,13 @@
-
-
-
 <div class="page-header">
-    <h1>Modifier un post</h1>
+    <?php if (empty($id)) : ?>
+
+        <h1>Crée un Article</h1>
+
+    <?php elseif (!empty($id)) :  ?>
+
+        <h1>Modifier un Article</h1>
+
+    <?php endif ?>
 </div>
 <!-- <script type="text/javascript" src="/monsite/webroot/js/tinymce/jquery.tinymce.min.js"></script> -->
 <script type="text/javascript" src="/monsite/webroot/js/tinymce/tinymce.min.js "></script>
@@ -18,8 +23,13 @@
         ],
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image",
         content_css: '//www.tiny.cloud/css/codepen.min.css',
+
         images_upload_url: '/upload',
+
+
         images_upload_handler: function(blobInfo, success, failure) {
+
+
             var xhr, formData;
 
 
@@ -46,16 +56,16 @@
             };
 
             formData = new FormData();
+
             formData.append('file', blobInfo.blob(), blobInfo.filename());
 
             xhr.send(formData);
 
         }
-        
-    });
 
+    });
 </script>
-<form action="<?php echo Router::url('admin/posts/edit/id:' . $id); ?>" method="post">
+<form action="<?php echo Router::url('admin/posts/post_edit/id:' . $id); ?>" method="post">
 
     <!-- le chanp name -->
     <?php echo $this->Form->input('name', 'Titre'); ?>
@@ -74,4 +84,3 @@
         <input type="submit" class="btn btn-primary" value="Envoyer">
     </div>
 </form>
-

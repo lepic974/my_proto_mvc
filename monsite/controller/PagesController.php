@@ -124,6 +124,7 @@ class pagesController extends Controller
         $this->loadModel('Post');
         $this->Post->delete($id);
         $this->Session->setFlash('Le contenu a bien été supprimé');
-        $this->redirect('admin');
+        $this->redirect('admin/pages/page_index');
     }
+    
 }

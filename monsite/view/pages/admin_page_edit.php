@@ -1,8 +1,14 @@
-
-
-
 <div class="page-header">
-    <h1>Modifier une page</h1>
+
+    <?php if (empty($id)) : ?>
+    
+        <h1>Crée une page</h1>
+    
+    <?php elseif (!empty($id)) :  ?>
+    
+        <h1>Modifier une page</h1>
+    
+    <?php endif ?>
 </div>
 <!-- <script type="text/javascript" src="/monsite/webroot/js/tinymce/jquery.tinymce.min.js"></script> -->
 <script type="text/javascript" src="/monsite/webroot/js/tinymce/tinymce.min.js "></script>
@@ -51,9 +57,8 @@
             xhr.send(formData);
 
         }
-        
-    });
 
+    });
 </script>
 <form action="<?php echo Router::url('admin/pages/page_edit/id:' . $id); ?>" method="post">
 
@@ -74,4 +79,3 @@
         <input type="submit" class="btn btn-primary" value="Envoyer">
     </div>
 </form>
-

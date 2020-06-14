@@ -203,9 +203,7 @@ $user = $_SESSION['User'];
             <!-- Page level plugins -->
             <script src="/monsite/webroot/vendor/chart.js/Chart.min.js"></script>
 
-            <!-- Page level custom scripts -->
-            <script src="/monsite/webroot/js/demo/chart-area-demo.js"></script>
-            <script src="/monsite/webroot/js/demo/chart-pie-demo.js"></script>
+  
 
 </body>
 
