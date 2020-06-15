@@ -54,6 +54,7 @@ class Session
         } else {
             return $_SESSION;
         }
+
     }
     /* si l'utilisateur est deja connecter permet de recuperait son role */
     public function isLogged()
@@ -68,10 +69,15 @@ class Session
     public function user($key)
     {
         if ($this->read('User')) {
-            if (isset($this->read('User')->$key)) {
 
-                return $this->read('User')->$key;
+            $user_key = $this->read('User');
+
+            if (isset($user_key[$key])) {
+
+                return$user_key[$key];
+
             }else{
+
                 return false;
             }
         }
