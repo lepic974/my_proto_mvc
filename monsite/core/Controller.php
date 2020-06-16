@@ -132,7 +132,7 @@ class Controller
      */
     function e404($message)
     {
-
+        $this->theme = 'error';
         /*(FR) Je renvoie une erreur de type 404 au navigateur
         (EN) I return a 404 browser error */
         header("HTTP/1.0 404 Not Found");

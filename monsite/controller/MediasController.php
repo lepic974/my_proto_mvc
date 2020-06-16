@@ -6,21 +6,173 @@ class MediasController extends Controller
     {
         $this->theme = 'modal';
         $this->loadModel('Media');
-        $d['images'] =$this->Media->find(array(
-
-        ));
-       $this->set($d);
+        $d['images'] = $this->Media->find(array());
+        $this->set($d);
     }
 
-    function admin_delete($id){
+
+    function admin_delete($id)
+    {
         $this->loadModel('Media');
-        $media =$this->Media->findFirst(array(
-            'conditions'=>array('id'=>$id)
+        $media = $this->Media->findFirst(array(
+            'conditions' => array('id' => $id)
 
         ));
-        unlink(WEBROOTT.DS.'img'.DS.$media->file);
+        unlink(WEBROOTT . DS . 'img' . DS . $media->file);
         $this->Media->delete($id);
         $this->Session->setFlash("Votre image est bien Supprimer");
-        $this->redirect('admin/medias/index/');
+        $this->redirect('admin/medias/galerie/');
+    }
+
+    function admin_save($id = '')
+    {
+        $this->loadModel('Media');
+        if ($id == '') {
+            reset($_FILES);
+            $temp = current($_FILES);
+            /* (FR)Je vais vérifier que les extensions correspondent */
+            /* (EN)I will check that the extensions match */
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+                header("HTTP/1.1 400 Invalid extension.");
+                return;
+            }
+
+            /* (FR)Récupération de la date courante
+            (FN)Retrieving the current date */
+            $date = (date('Y,m'));
+            $temp_date = explode(',', $date);
+            $date = $temp_date[0] . DS . $temp_date[1];
+            $dir = BASE_URL . DS . 'monsite' . DS . 'webroot' . DS . 'img' . DS . $date;
+
+
+
+            /*(FR)Vérifie si le dossier existe
+             (EN)Check if the folder exists */
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            /*(FR) Je définis le chemin où je vais enregistrer mon image et je la stock dans la variable $filetowrite*/
+            /* (EN)I define the path where I will save my image and I store it in the variable $filetowrite */
+            $filetowrite = $dir .  DS . $temp['name'];
+
+            /*(FR)Vérifie si le fichier existe
+            (EN) Check if the file exists */
+            if (!file_exists($dir . DS . $temp['name'])) {
+
+                /* (FR)Je déplacer fichier dans le dossier image
+                (EN) I move file to image folder */
+                move_uploaded_file($temp['tmp_name'], $filetowrite);
+
+                /* (FR) Sérialisation des info de l'image pour les sauvegarder dans la base données
+                (EN) Serialization of image info to save the database */
+                $data = array(
+
+                    'name' => $temp['name'],
+                    'file' =>  $temp_date[0] . '/' . $temp_date[1] . '/' . $temp['name'],
+                    'type' => 'img',
+                    'info'=>''
+                );
+
+        
+                $this->request->data = $data;
+                $this->Session->setFlash('Images ajouté avec succès à la galerie');
+            } else {
+                $this->Session->setFlash('Un fichier portant ce nom est cette extension existe déjà');
+                $this->redirect('admin/medias/galerie/');
+            }
+        }
+
+        $this->Media->save($this->request->data);
+
+        $this->redirect('admin/medias/galerie/');
+    }
+
+    function admin_upload()
+    {
+        $this->loadModel('Media');
+
+        $this->theme = 'clear';
+
+        reset($_FILES);
+
+        /* (FR) Je récupère le premier élément et je stocke dans la variable $temps */
+        /* (EN) I get the first element and I store in the variable $temps */
+        $temp = current($_FILES);
+
+
+        /* (FR) Je vérifie que le fichier a été transmis par le HTTP POST */
+        /* (EN) I verify that the file was transmitted by HTTP POST*/
+        if (is_uploaded_file($temp['tmp_name'])) {
+
+            /* (FR)Je vais vérifier que les extensions correspondent */
+            /* (EN)I will check that the extensions match */
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+                header("HTTP/1.1 400 Invalid extension.");
+                return;
+            }
+
+            /* (FR)Récupération de la date courante
+            (FN)Retrieving the current date */
+            $date = (date('Y,m'));
+            $temp_date = explode(',', $date);
+            $date = $temp_date[0] . DS . $temp_date[1];
+            $dir = BASE_URL . DS . 'monsite' . DS . 'webroot' . DS . 'img' . DS . $date;
+
+            /*(FR)Vérifie si le dossier existe
+             (EN)Check if the folder exists */
+            if (!file_exists($dir)) {
+
+                mkdir($dir, 0777, true);
+            }
+            /*(FR) Je définis le chemin où je vais enregistrer mon image et je la stock dans la variable $filetowrite*/
+            /* (EN)I define the path where I will save my image and I store it in the variable $filetowrite */
+            $filetowrite = $dir .  DS . $temp['name'];
+
+            /*(FR)Vérifie si le fichier existe
+            (EN) Check if the file exists */
+            if (!file_exists($dir . DS . $temp['name'])) {
+
+                /* (FR)Je déplacer fichier dans le dossier image
+                (EN) I move file to image folder */
+                move_uploaded_file($temp['tmp_name'], $filetowrite);
+
+                /* (FR) Sérialisation des info de l'image pour les sauvegarder dans la base données
+                (EN) Serialization of image info to save the database */
+                $data = array(
+                    'name' => $temp['name'],
+                    'file' =>  $temp_date[0] . '/' . $temp_date[1] . '/' . $temp['name'],
+                    'type' => 'img',
+                    'info' => ''
+                );
+
+                $this->Media->save($data);
+            }
+
+            $filetowrite = '/' . 'monsite' . '/' . 'webroot' . '/' . 'img' . '/' . $temp_date[0] . '/' . $temp_date[1] . '/' . $temp['name'];
+            /*  Je crée un nouveau tableau dans laquelle je rajoute une clé et que je nomme
+            location qui aura le chemin vers mon image.*/
+
+            /* (EN)I create a new table in which I add a key and which I name
+            location which will have the way to my image. */
+            // $file = array('location' =>   $filetowrite);
+            $d = array(
+                'file' => array('location' =>   $filetowrite)
+            );
+
+
+            $this->set($d);
+        } else {
+            /*  (FR) Je retourne une erreur 
+            (EN)I return an error*/
+            header("HTTP/1.1 500 Server Error");
+        }
+    }
+
+    function admin_galerie()
+    {
+        $this->loadModel('Media');
+        $d['images'] = $this->Media->find(array());
+        $this->set($d);
     }
 }

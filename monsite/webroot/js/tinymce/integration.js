@@ -11,7 +11,7 @@ tinymce.init({
     toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image",
     content_css: '//www.tiny.cloud/css/codepen.min.css',
     relative_urls: false,
-    images_upload_url: '/upload',
+    images_upload_url: '/monsite/cockpit/medias/upload',
 
 
     images_upload_handler: function (blobInfo, success, failure) {
@@ -22,7 +22,7 @@ tinymce.init({
 
         xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
-        xhr.open('POST', '/upload');
+        xhr.open('POST', '/monsite/cockpit/medias/upload');
 
         xhr.onload = function () {
             var json;
@@ -31,14 +31,15 @@ tinymce.init({
                 failure('HTTP Error: ' + xhr.status);
                 return;
             }
-
+            alert('Une erreur est survenue !\n\nCode :' + xhr.status + '\nTexte : ' + xhr.responseText); 
             json = JSON.parse(xhr.responseText);
 
             if (!json || typeof json.location != 'string') {
+               
                 failure('Invalid JSON: ' + xhr.responseText);
                 return;
             }
-
+           
             success(json.location);
         };
 

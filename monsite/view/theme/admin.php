@@ -92,6 +92,17 @@ $user = $_SESSION['User'];
 
             </li>
 
+             <!-- Nav Item - Posts Collapse Menu -->
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo Router::url('admin/medias/galerie'); ?>"  aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Galerie d'images</span>
+                </a>
+
+            </li>
+
+
+
 
 
             <!-- Divider -->

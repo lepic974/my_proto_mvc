@@ -9,20 +9,21 @@ class UsersController extends Controller
      */
     function login()
     {
+        $this->theme = 'login_and_logout';
         /*(FR) Je verifie si ma variable data n'est pas vide 
         (EN)I check if my data variable is not empty */
         if ($this->request->data) {
-        
+
             /* (FR)Je récupère les données que ma variable data contient 
              (EN)I get the data that my data variable contains*/
             $data = $this->request->data;
-        
+
             /*(FR) On encode le mot de passe avec le système de cryptage sha1
             (EN) We encrypt the password with the encryption system*/
             $data->password = sha1($data->password);
 
             $this->loadModel('User');
-        
+
             /*(FR) Je cherche l'utilisateur dans la base de données 
             (EN) I'm looking for the user in the database*/
             $user = $this->User->findFirst(array(
@@ -65,8 +66,32 @@ class UsersController extends Controller
      */
     function logout()
     {
+        $this->theme = 'login_and_logout';
         unset($_SESSION['User']);
         $this->Session->setFlash('Vous éte déconnecté');
         $this->redirect('/');
+    }
+
+    function ForgotPassword()
+    {
+        $this->theme = 'login_and_logout';
+    }
+
+    function register()
+    {
+        $this->theme = 'login_and_logout';
+    }
+    function newUser()
+    {
+        $this->loadModel('User');
+
+        if ($this->request->data) {
+            $data = $this->request->data;
+            $data->password = sha1($data->password);
+            $this->request->data->role = 'user';
+            $this->User->save($this->request->data);
+
+            $this->redirect('users/login');
+        }
     }
 }

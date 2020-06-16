@@ -26,14 +26,7 @@
                                     <img class="img" src="<?php echo Router::webroot('img/' . $v->file); ?>" height="100" alt="">
                                 </a>
                             </td>
-                            <td>
-                                <span class="icon text-white-50">&spades</span>
-                                <a class="btn btn-danger btn-icon-split" onclick="return confirm('Voulez vous vraiment supprimer cette image')" href="<?php echo Router::url('cockpit/medias/delete/id:' . $v->id); ?>">
-                                    <span class="icon text-white-50"><i class="fas fa-trash"></i></span>
-                                    <span class="text">Spupprimer l'article</span>
-                                </a>
-
-                            </td>
+                    
                         </tr>
                     <?php endforeach ?>
                 </tbody>
