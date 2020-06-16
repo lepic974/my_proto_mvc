@@ -10,16 +10,21 @@ class MediasController extends Controller
         $this->set($d);
     }
 
-
+/* (FR)Suppression d'une image dans la base de donnée est le dossier image */
     function admin_delete($id)
     {
         $this->loadModel('Media');
+        /* (FR) On recupère les info sur l'image dans la BD */
         $media = $this->Media->findFirst(array(
             'conditions' => array('id' => $id)
 
         ));
+        /* (FR)Suppression de l'image du dossier image */
         unlink(WEBROOTT . DS . 'img' . DS . $media->file);
+        /* (FR)Suppression des info de l'image dans la BD */
         $this->Media->delete($id);
+        /* (FR)On fait un message pour dire que la suppression a réussite 
+        puis on redirige verre la galerie */
         $this->Session->setFlash("Votre image est bien Supprimer");
         $this->redirect('admin/medias/galerie/');
     }
@@ -74,17 +79,18 @@ class MediasController extends Controller
                     'info'=>''
                 );
 
-        
+                /* (FR)Injection de $data dans request */
                 $this->request->data = $data;
                 $this->Session->setFlash('Images ajouté avec succès à la galerie');
             } else {
+                /* (FR)Si il a deja un fichier du meme nom on redirige avec un message d'erreur */
                 $this->Session->setFlash('Un fichier portant ce nom est cette extension existe déjà');
                 $this->redirect('admin/medias/galerie/');
             }
         }
-
+        /* (FR)On sauvegarde les info dans la base de donnée */
         $this->Media->save($this->request->data);
-
+        /* (FR) Et on redirige vers la galerie */
         $this->redirect('admin/medias/galerie/');
     }
 

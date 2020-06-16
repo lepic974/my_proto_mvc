@@ -72,23 +72,29 @@ class UsersController extends Controller
         $this->redirect('/');
     }
 
+    /* (FR)Charge la page qui permet de récupèrait sont mot de passe */
     function ForgotPassword()
     {
         $this->theme = 'login_and_logout';
     }
-
+/* (FR)Charge la page qui permet de senregistré*/
     function register()
     {
         $this->theme = 'login_and_logout';
+        
     }
+    /* (FR)Fonction qui permet de sauvgarder un nouvelle utilisateur */
     function newUser()
     {
         $this->loadModel('User');
 
         if ($this->request->data) {
             $data = $this->request->data;
+            /* (FR)Encodage du mos de passe pour sauvgarde */
             $data->password = sha1($data->password);
+            /*(FR)Je definit le role pardefaut des utilisateur */
             $this->request->data->role = 'user';
+            
             $this->User->save($this->request->data);
 
             $this->redirect('users/login');
