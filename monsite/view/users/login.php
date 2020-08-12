@@ -1,4 +1,5 @@
 <!-- Outer Row -->
+
 <div class="row justify-content-center">
 
     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -22,7 +23,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox small">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                                        <input type="checkbox" name="remember" class="custom-control-input" id="customCheck">
                                         <label class="custom-control-label" for="customCheck">Se souvenir de moi</label>
                                     </div>
                                 </div>

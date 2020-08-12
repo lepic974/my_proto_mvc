@@ -1,0 +1,54 @@
+.theme_galerieBlock{
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 50%;
+    justify-content: space-evenly;
+    padding: 20px 20px 20px 20px;
+}
+.theme_select
+{
+    display: block;
+    position: relative;
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 250px;
+}
+.theme_name{
+    position: absolute;
+    top: 10px;
+    left: 55%;
+
+}
+.galerie_imgPreview{
+    width: 250px;
+    height: 150px;
+}
+.galerie_imgListe{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    width: 80%;
+    padding: 10px 10px 10px 10px;
+}
+
+
+/* Article */
+.imgPresentation_article{
+    display: block;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+}
+.block_article{
+    width: 550px;
+    height: 700px;
+    margin: auto;
+}
+.titleBloc_article ,.description_article{
+    margin-left: 10px;
+    margin-right: 10px;
+}

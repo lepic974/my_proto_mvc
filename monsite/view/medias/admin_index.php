@@ -22,8 +22,8 @@
                         <tr>
                             <td><?php echo $v->name; ?></td>
                             <td>
-                                <a href="#" onclick="insert('<?php echo Router::webroot('img/' . $v->file); ?>')">
-                                    <img class="img" src="<?php echo Router::webroot('img/' . $v->file); ?>" height="100" alt="">
+                                <a href="#" onclick="insert('<?php echo Router::webroot('img/' . $v->url); ?>')">
+                                    <img class="img" src="<?php echo Router::webroot('img/' . $v->url); ?>" height="100" alt="">
                                 </a>
                             </td>
                     

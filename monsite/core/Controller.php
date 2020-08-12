@@ -20,13 +20,35 @@ class Controller
             $this->request = $request;
             require ROOT . DS . 'config' . DS . 'hook.php';
         }
-      
     }
+    public function autoConnect()
+    {
+        /* On verifie que les Cookie existe */
+        if (isset($_COOKIE['login']) && isset($_COOKIE['password'])) {
+            /* On charge le model de la Table Users */
+            $this->loadModel('User');
+            /* On verifie si il ya bien un utilisateur avec ces info  */
+            $user = $this->User->findFirst(array(
 
+                'conditions' => array('login' => $_COOKIE['login'], 'password' => $_COOKIE['password'])
+            )); 
+            /* Si il ya bien un utlisateur on ouvre sa Session */
+            if (!empty($user)) { 
+
+              $this->Session->write('User', $user); 
+
+            }
+        }
+       
+    }
     /* (FR)Permet de faire un rendu de la page demandée
     (EN)Allows you to render the requested page */
     public function render($view)
     {
+        /* FR(Connectera automatique ment lutilisateur si il a cocher la case se souvenir de moi ) */
+        if (!isset($_SESSION['User'])) {
+            $this->autoConnect();
+        }
 
         /*(FR) Si la vue demandé est déjà rendu on retourne false
         (EN) If the requested view is already rendered we return*/
@@ -42,7 +64,7 @@ class Controller
            (EN)If URL begins with a '/' it is that an error page is requested */
         if (strpos($view, '/') === 0) {
 
-          /*  (FR) On passe à notre vu le chemin vers le dossier erreur 
+            /*  (FR) On passe à notre vu le chemin vers le dossier erreur 
           (EN) We pass our way to the error folder */
             $view = ROOT . DS . 'view' . $view . '.php';
         } else {
@@ -62,7 +84,7 @@ class Controller
         require($view);
 
         /*(FR)On lit les données qui on était stocker par ob_start et on les supprimes
-        (EN) We read the data that we were storing by ob_start and we delete them */ 
+        (EN) We read the data that we were storing by ob_start and we delete them */
         $content_for_theme = ob_get_clean();
 
         /*(FR) On ajoute le theme que on peut considerer comme le theme du site
@@ -82,7 +104,7 @@ class Controller
     public function set($key, $value = null)
     {
         /*(FR) Vérifie si la clé est un tableau
-        (EN) Check if the key is an array */ 
+        (EN) Check if the key is an array */
         if (is_array($key)) {
 
             /*(FR) Ajoute directement les infos à la variable $vars 
@@ -117,10 +139,10 @@ class Controller
 
             $this->$name = new $name();
         }
-        
+
         /*(FR) Si ma variable n'est pas vide c'est qu'elle contient un formulaire donc je l'e passe à mon modèle
         (EN) If my variable is not empty it is because it contains a form so I pass it to my model */
-        if(isset($this->Form)){
+        if (isset($this->Form)) {
 
             $this->$name->Form = $this->Form;
         }

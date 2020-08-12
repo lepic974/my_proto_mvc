@@ -85,16 +85,16 @@ $user = $_SESSION['User'];
             </li>
             <!-- Nav Item - Posts Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo Router::url('admin/posts/post_index'); ?>"  aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="<?php echo Router::url('admin/posts/post_index'); ?>" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Articles</span>
                 </a>
 
             </li>
 
-             <!-- Nav Item - Posts Collapse Menu -->
-             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo Router::url('admin/medias/galerie'); ?>"  aria-expanded="true" aria-controls="collapsePages">
+            <!-- Nav Item - Posts Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo Router::url('admin/medias/galerie'); ?>" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Galerie d'images</span>
                 </a>
@@ -144,16 +144,16 @@ $user = $_SESSION['User'];
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    Systeme
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Activité
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Déconnection
                                 </a>
                             </div>
                         </li>
@@ -214,7 +214,7 @@ $user = $_SESSION['User'];
             <!-- Page level plugins -->
             <script src="/monsite/webroot/vendor/chart.js/Chart.min.js"></script>
 
-  
+
 
 </body>
 

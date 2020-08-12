@@ -31,8 +31,8 @@
                                 <input type="hidden" name="id" value="<?php echo $v->id ?>">
                                 <td><input name="name" type="text" class='form-control' value="<?php echo $v->name; ?>"></td>
                                 <td>
-                                    <a href="#" onclick="insert('<?php echo Router::webroot('img/' . $v->file); ?>')">
-                                        <img class="img" src="<?php echo Router::webroot('img/' . $v->file); ?>" height="100" alt="">
+                                    <a href="#" onclick="insert('<?php echo Router::webroot('img/' . $v->url); ?>')">
+                                        <img class="img" src="<?php echo Router::webroot('img/' . $v->url); ?>" height="100" alt="">
                                     </a>
                                 </td>
                                 <td>

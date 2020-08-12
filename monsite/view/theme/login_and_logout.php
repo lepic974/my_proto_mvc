@@ -24,6 +24,7 @@
 
         <!-- affiche les info de la flach -->
         <div aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            
             <?php echo $this->Session->flash(); ?>
             <?php echo $content_for_theme; ?>
         </div>

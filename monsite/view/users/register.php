@@ -1,3 +1,25 @@
+<?php
+  
+  $login ='';
+  $name ='';
+  $email='';
+  $password='';
+
+  if( $_SESSION['parametre']){
+    $_parametre = $_SESSION['parametre'];
+    $login =$_parametre->login;
+    $name =$_parametre->name;
+    $email =$_parametre->email;
+    $password =$_parametre->password;
+    
+  }else{
+    $_parametre = array();
+  }
+
+ 
+
+
+?>
 <div class="container">
 
     <div class="card o-hidden border-0 shadow-lg my-5">
@@ -13,21 +35,21 @@
               <form class="user" action="<?php echo Router::url('users/newUser') ?> " method="POST">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" name="login" class="form-control form-control-user" id="exampleFirstName" placeholder="Votre login">
+                    <input type="text" name="login" class="form-control form-control-user" id="exampleFirstName" placeholder="Votre login" value="<?php echo $login ?>" >
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" name="name" class="form-control form-control-user" id="exampleLastName" placeholder="Votre nom ">
+                    <input type="text" name="name" class="form-control form-control-user" id="exampleLastName" placeholder="Votre nom " value="<?php echo $name ?>">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Votre adresse email">
+                  <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Votre adresse email" value="<?php echo $email ?>">
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Votre mot de passe">
+                    <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Votre mot de passe"value="<?php echo $password ?>">
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" name="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Répéter votre mot de passe">
+                    <input type="password" name="password2" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Répéter votre mot de passe">
                   </div>
                 </div>
                 <input type="submit" value="Enregistrer votre compte" class="btn btn-primary btn-user btn-block">

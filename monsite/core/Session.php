@@ -16,12 +16,17 @@ class Session
      * @param string message
      * @param string type (non obligatoire) 
      */
-    function setFlash($message, $type = 'bg-success')
+    function setFlash($message, $type = 'bg-success', $parametre =null)
     {
+        if ($parametre == null){
+            $parametre=array();
+        }
         $_SESSION['flash'] = array(
             'message' => $message,
-            'type' => $type
+            'type' => $type,
+           
         );
+        $_SESSION['parametre']=$parametre;
     }
 
 /* *
@@ -31,11 +36,17 @@ class Session
     {
 
         if (isset($_SESSION['flash']['message'])) {
+           /*  die(debug($_SESSION)); */
             $html = '<div class="alert-message ' . $_SESSION['flash']['type'] . ' text-white "><p>' . $_SESSION['flash']['message'] . '</p></div>';
+        
             $_SESSION['flash'] = array();
+            $_SESSION['parametre']=array();  
+            
             return $html;
         }
+      
     }
+
     /* Permet de sotker un user et ces info dans la variable $_SESSION */
     public function write($key, $value)
     {

@@ -1,6 +1,27 @@
 <?php
 class MediasController extends Controller
 {
+    function galerie($id=null){
+        if( $id == null) {
+            $this->redirect('pages/galerie');
+        }else{
+            $this->loadModel('Media');
+
+            $d['galerie'] = $this->Media->find(array(
+                'conditions'=>array('id_theme'=>$id,'isgalerie'=>1),
+                'fields'=>'url'
+            ));
+            if(empty($d['galerie'])){
+                $this->redirect('pages/galerie');
+            }else{
+                
+                $this->set($d);
+            }
+     
+
+        }
+
+    }
 
     function admin_index()
     {
@@ -47,7 +68,7 @@ class MediasController extends Controller
             $date = (date('Y,m'));
             $temp_date = explode(',', $date);
             $date = $temp_date[0] . DS . $temp_date[1];
-            $dir = BASE_URL . DS . 'monsite' . DS . 'webroot' . DS . 'img' . DS . $date;
+            $dir = 'E:'.DS.'Monsite'.DS.'Site-Formation'  . DS . 'webroot' . DS . 'img' . DS . $date;
 
 
 
@@ -74,14 +95,15 @@ class MediasController extends Controller
                 $data = array(
 
                     'name' => $temp['name'],
-                    'file' =>  $temp_date[0] . '/' . $temp_date[1] . '/' . $temp['name'],
+                    'url' =>  $temp_date[0] . '/' . $temp_date[1] . '/' . $temp['name'],
                     'type' => 'img',
-                    'info'=>''
+           
                 );
 
                 /* (FR)Injection de $data dans request */
                 $this->request->data = $data;
                 $this->Session->setFlash('Images ajouté avec succès à la galerie');
+
             } else {
                 /* (FR)Si il a deja un fichier du meme nom on redirige avec un message d'erreur */
                 $this->Session->setFlash('Un fichier portant ce nom est cette extension existe déjà');
